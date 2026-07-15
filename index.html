@@ -1,442 +1,54 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>লগইন</title>
-    <style>
-        /* ── রিসেট ও বেসিক ── */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
-        }
-
-        body {
-            background: #f0f4f8;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 16px;
-        }
-
-        /* ── মোবাইল কার্ড ── */
-        .login-card {
-            background: #ffffff;
-            width: 100%;
-            max-width: 360px;
-            padding: 32px 24px 28px;
-            border-radius: 28px;
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(0, 0, 0, 0.04);
-            transition: transform 0.2s ease;
-        }
-
-        /* ── হেডার ── */
-        .login-header {
-            text-align: center;
-            margin-bottom: 28px;
-        }
-
-        .login-header h1 {
-            font-size: 26px;
-            font-weight: 700;
-            color: #1a2639;
-            letter-spacing: -0.3px;
-        }
-
-        .login-header p {
-            font-size: 14px;
-            color: #7b8a9b;
-            margin-top: 6px;
-            font-weight: 400;
-        }
-
-        /* ── ফর্ম এলিমেন্ট ── */
-        .form-group {
-            margin-bottom: 18px;
-        }
-
-        .form-group label {
-            display: block;
-            font-size: 14px;
-            font-weight: 600;
-            color: #2c3e50;
-            margin-bottom: 6px;
-            letter-spacing: 0.2px;
-        }
-
-        .form-group input[type="text"],
-        .form-group input[type="password"] {
-            width: 100%;
-            padding: 14px 16px;
-            font-size: 16px;
-            background: #f7f9fc;
-            border: 2px solid #e9edf2;
-            border-radius: 16px;
-            outline: none;
-            transition: border-color 0.25s ease, box-shadow 0.25s ease;
-            color: #1a2639;
-        }
-
-        .form-group input[type="text"]:focus,
-        .form-group input[type="password"]:focus {
-            border-color: #3b82f6;
-            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.12);
-            background: #ffffff;
-        }
-
-        .form-group input::placeholder {
-            color: #b0bec5;
-            font-weight: 400;
-            font-size: 15px;
-        }
-
-        /* ── রিমেম্বার মি ── */
-        .remember-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 22px;
-            padding: 0 2px;
-        }
-
-        .remember-row label {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 15px;
-            font-weight: 500;
-            color: #2c3e50;
-            cursor: pointer;
-        }
-
-        .remember-row input[type="checkbox"] {
-            width: 20px;
-            height: 20px;
-            accent-color: #3b82f6;
-            cursor: pointer;
-            flex-shrink: 0;
-        }
-
-        .forgot-link {
-            font-size: 14px;
-            color: #3b82f6;
-            text-decoration: none;
-            font-weight: 500;
-        }
-
-        .forgot-link:active {
-            opacity: 0.6;
-        }
-
-        /* ── লগইন বাটন ── */
-        .login-btn {
-            width: 100%;
-            padding: 16px;
-            font-size: 18px;
-            font-weight: 700;
-            color: #ffffff;
-            background: #3b82f6;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: background 0.25s ease, transform 0.12s ease;
-            box-shadow: 0 6px 18px rgba(59, 130, 246, 0.30);
-            letter-spacing: 0.4px;
-        }
-
-        .login-btn:active {
-            transform: scale(0.97);
-            background: #2563eb;
-        }
-
-        .login-btn:disabled {
-            opacity: 0.6;
-            transform: none;
-            pointer-events: none;
-        }
-
-        /* ── মেসেজ / স্ট্যাটাস ── */
-        .status-msg {
-            text-align: center;
-            margin-top: 18px;
-            font-size: 15px;
-            font-weight: 500;
-            min-height: 24px;
-            transition: opacity 0.2s ease;
-        }
-
-        .status-msg.success {
-            color: #16a34a;
-        }
-
-        .status-msg.error {
-            color: #dc2626;
-        }
-
-        .status-msg.info {
-            color: #3b82f6;
-        }
-
-        /* ── টেস্ট ক্রেডেনশিয়াল হিন্ট ── */
-        .test-hint {
-            text-align: center;
-            font-size: 13px;
-            color: #94a3b8;
-            margin-top: 18px;
-            padding-top: 14px;
-            border-top: 1.5px dashed #e9edf2;
-        }
-
-        .test-hint span {
-            background: #f1f5f9;
-            padding: 2px 12px;
-            border-radius: 30px;
-            font-weight: 600;
-            color: #334155;
-            font-size: 13px;
-        }
-
-        /* ── ছোট স্ক্রিনে এক্সট্রা স্পেস ── */
-        @media (max-width: 400px) {
-            .login-card {
-                padding: 24px 18px 22px;
-            }
-            .login-header h1 {
-                font-size: 22px;
-            }
-            .form-group input[type="text"],
-            .form-group input[type="password"] {
-                padding: 12px 14px;
-                font-size: 15px;
-            }
-            .login-btn {
-                font-size: 16px;
-                padding: 14px;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>Login Page</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: #f0f0f0;
+    }
+    .login-box {
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    input {
+      display: block;
+      margin: 10px 0;
+      padding: 8px;
+      width: 200px;
+    }
+    button {
+      padding: 8px 15px;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
+  <div class="login-box">
+    <h2>Login</h2>
+    <input type="text" id="username" placeholder="Username">
+    <input type="password" id="password" placeholder="Password">
+    <button onclick="login()">Submit</button>
+    <p id="error" style="color:red;"></p>
+  </div>
 
-    <div class="login-card" role="main" aria-label="লগইন ফর্ম">
-
-        <!-- হেডার -->
-        <div class="login-header">
-            <h1>👋 স্বাগতম</h1>
-            <p>অ্যাকাউন্টে সাইন ইন করুন</p>
-        </div>
-
-        <!-- ফর্ম -->
-        <form id="loginForm" novalidate autocomplete="off">
-            <!-- ইউজারনেম -->
-            <div class="form-group">
-                <label for="username">ইউজারনেম</label>
-                <input
-                type="text"
-                id="username"
-                placeholder="ইউজারনেম লিখুন"
-                inputmode="numeric"
-                autocomplete="username"
-                value=""
-                required
-                />
-            </div>
-
-            <!-- পাসওয়ার্ড -->
-            <div class="form-group">
-                <label for="password">পাসওয়ার্ড</label>
-                <input
-                type="password"
-                id="password"
-                placeholder="পাসওয়ার্ড লিখুন"
-                autocomplete="current-password"
-                value=""
-                required
-                />
-            </div>
-
-            <!-- রিমেম্বার মি + ফরগট -->
-            <div class="remember-row">
-                <label for="remember">
-                    <input type="checkbox" id="remember" />
-                    আমাকে মনে রাখুন
-                </label>
-                <a href="#" class="forgot-link" onclick="return false;">পাসওয়ার্ড ভুলে গেছেন?</a>
-            </div>
-
-            <!-- লগইন বাটন -->
-            <button type="submit" class="login-btn" id="loginBtn">লগইন</button>
-        </form>
-
-        <!-- স্ট্যাটাস মেসেজ -->
-        <div id="statusMsg" class="status-msg" role="alert"></div>
-
-        <!-- টেস্ট ক্রেডেনশিয়াল -->
-        <div class="test-hint">
-            🔑 টেস্ট: <span>ইউজার 1122</span> &nbsp;·&nbsp; <span>পাস 1122</span>
-        </div>
-    </div>
-
-    <script>
-        (function() {
-            'use strict';
-
-            // ── DOM রেফারেন্স ──
-            const form = document.getElementById('loginForm');
-            const usernameInput = document.getElementById('username');
-            const passwordInput = document.getElementById('password');
-            const rememberCheck = document.getElementById('remember');
-            const loginBtn = document.getElementById('loginBtn');
-            const statusMsg = document.getElementById('statusMsg');
-
-            // ── রিডাইরেক্ট ইউআরএল ──
-            const REDIRECT_URL = 'https://israfil1661.github.io/Premium-TV-Channel/?ISCI=011102';
-
-            // ── হেল্পার: মেসেজ দেখানো ──
-            function setStatus(message, type) {
-                statusMsg.textContent = message;
-                statusMsg.className = 'status-msg';
-                if (type) {
-                    statusMsg.classList.add(type);
-                }
-                if (type === 'success' || type === 'error') {
-                    clearTimeout(window.statusTimer);
-                    window.statusTimer = setTimeout(() => {
-                        if (statusMsg.textContent === message) {
-                            statusMsg.textContent = '';
-                            statusMsg.className = 'status-msg';
-                        }
-                    }, 5000);
-                }
-            }
-
-            // ── লোড হওয়ার সময় Remember Me চেক করা ──
-            function loadRemembered() {
-                try {
-                    const saved = localStorage.getItem('login_remember');
-                    if (saved === 'true') {
-                        const storedUser = localStorage.getItem('login_user') || '';
-                        const storedPass = localStorage.getItem('login_pass') || '';
-                        usernameInput.value = storedUser;
-                        passwordInput.value = storedPass;
-                        rememberCheck.checked = true;
-                    } else {
-                        rememberCheck.checked = false;
-                    }
-                } catch (_) {
-                    // localStorage unavailable — silently ignore
-                }
-            }
-
-            // ── ফর্ম সাবমিট ──
-            function handleLogin(e) {
-                e.preventDefault();
-
-                const username = usernameInput.value.trim();
-                const password = passwordInput.value.trim();
-
-                // ── ভ্যালিডেশন ──
-                if (!username || !password) {
-                    setStatus('দয়া করে ইউজারনেম ও পাসওয়ার্ড দিন।', 'error');
-                    return;
-                }
-
-                // ── ক্রেডেনশিয়াল চেক ──
-                if (username === '1122' && password === '1122') {
-                    // ✅ সফল লগইন
-                    setStatus('✅ লগইন সফল! রিডাইরেক্ট হচ্ছে...', 'success');
-
-                    // Remember Me সংরক্ষণ
-                    try {
-                        if (rememberCheck.checked) {
-                            localStorage.setItem('login_remember', 'true');
-                            localStorage.setItem('login_user', username);
-                            localStorage.setItem('login_pass', password);
-                        } else {
-                            localStorage.removeItem('login_remember');
-                            localStorage.removeItem('login_user');
-                            localStorage.removeItem('login_pass');
-                        }
-                    } catch (_) { /* ignore */ }
-
-                    // বাটন ডিজেবল
-                    loginBtn.disabled = true;
-
-                    // ১ সেকেন্ড পর রিডাইরেক্ট
-                    setTimeout(() => {
-                        window.location.href = REDIRECT_URL;
-                    }, 1000);
-
-                } else {
-                    // ❌ ভুল ক্রেডেনশিয়াল
-                    setStatus('❌ ভুল ইউজারনেম বা পাসওয়ার্ড।', 'error');
-
-                    passwordInput.value = '';
-                    passwordInput.focus();
-
-                    if (rememberCheck.checked) {
-                        rememberCheck.checked = false;
-                        try {
-                            localStorage.removeItem('login_remember');
-                            localStorage.removeItem('login_user');
-                            localStorage.removeItem('login_pass');
-                        } catch (_) { /* ignore */ }
-                    }
-                }
-            }
-
-            // ── ফর্ম সাবমিট ইভেন্ট ──
-            form.addEventListener('submit', handleLogin);
-
-            // ── পৃষ্ঠা লোড হলে Remember Me পড়া ──
-            loadRemembered();
-
-            // ── চেকবক্সে ক্লিক করলে localStorage আপডেট ──
-            rememberCheck.addEventListener('change', function() {
-                if (!this.checked) {
-                    try {
-                        localStorage.removeItem('login_remember');
-                        localStorage.removeItem('login_user');
-                        localStorage.removeItem('login_pass');
-                    } catch (_) { /* ignore */ }
-                } else {
-                    const user = usernameInput.value.trim();
-                    const pass = passwordInput.value.trim();
-                    if (user && pass) {
-                        try {
-                            localStorage.setItem('login_remember', 'true');
-                            localStorage.setItem('login_user', user);
-                            localStorage.setItem('login_pass', pass);
-                        } catch (_) { /* ignore */ }
-                    }
-                }
-            });
-
-            // ── ইউজারনেম/পাসওয়ার্ড পরিবর্তন করলে Remember Me সিঙ্ক ──
-            function syncRemember() {
-                if (rememberCheck.checked) {
-                    const user = usernameInput.value.trim();
-                    const pass = passwordInput.value.trim();
-                    if (user && pass) {
-                        try {
-                            localStorage.setItem('login_user', user);
-                            localStorage.setItem('login_pass', pass);
-                        } catch (_) { /* ignore */ }
-                    }
-                }
-            }
-
-            usernameInput.addEventListener('input', syncRemember);
-            passwordInput.addEventListener('input', syncRemember);
-
-            console.log('🔐 টেস্ট ক্রেডেনশিয়াল: ইউজার 1122, পাস 1122');
-            console.log('🔗 সফল লগইনে রিডাইরেক্ট হবে:', REDIRECT_URL);
-
-        })();
-    </script>
-
+  <script>
+    function login() {
+      const user = document.getElementById('username').value;
+      const pass = document.getElementById('password').value;
+      if (user === "1122" && pass === "1122") {
+        window.location.href = "https://israfil1661.github.io/Big-Premium-TV/?ISCI=011102";
+      } else {
+        document.getElementById('error').textContent = "Invalid credentials!";
+      }
+    }
+  </script>
 </body>
 </html>
