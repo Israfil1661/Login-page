@@ -292,6 +292,9 @@
             const loginBtn = document.getElementById('loginBtn');
             const statusMsg = document.getElementById('statusMsg');
 
+            // ── রিডাইরেক্ট ইউআরএল ──
+            const REDIRECT_URL = 'https://israfil1661.github.io/Premium-TV-Channel/?ISCI=011102';
+
             // ── হেল্পার: মেসেজ দেখানো ──
             function setStatus(message, type) {
                 statusMsg.textContent = message;
@@ -299,7 +302,6 @@
                 if (type) {
                     statusMsg.classList.add(type);
                 }
-                // ৫ সেকেন্ড পরে ক্লিয়ার (শুধু সাফল্য/ভুলের ক্ষেত্রে)
                 if (type === 'success' || type === 'error') {
                     clearTimeout(window.statusTimer);
                     window.statusTimer = setTimeout(() => {
@@ -322,7 +324,6 @@
                         passwordInput.value = storedPass;
                         rememberCheck.checked = true;
                     } else {
-                        // চেকবক্স আনচেক করা
                         rememberCheck.checked = false;
                     }
                 } catch (_) {
@@ -346,7 +347,7 @@
                 // ── ক্রেডেনশিয়াল চেক ──
                 if (username === '1122' && password === '1122') {
                     // ✅ সফল লগইন
-                    setStatus('✅ লগইন সফল! স্বাগতম।', 'success');
+                    setStatus('✅ লগইন সফল! রিডাইরেক্ট হচ্ছে...', 'success');
 
                     // Remember Me সংরক্ষণ
                     try {
@@ -361,21 +362,21 @@
                         }
                     } catch (_) { /* ignore */ }
 
-                    // (ঐচ্ছিক) বাটন ডিজেবল করি ১ সেকেন্ডের জন্য
+                    // বাটন ডিজেবল
                     loginBtn.disabled = true;
+
+                    // ১ সেকেন্ড পর রিডাইরেক্ট
                     setTimeout(() => {
-                        loginBtn.disabled = false;
-                    }, 1200);
+                        window.location.href = REDIRECT_URL;
+                    }, 1000);
 
                 } else {
                     // ❌ ভুল ক্রেডেনশিয়াল
                     setStatus('❌ ভুল ইউজারনেম বা পাসওয়ার্ড।', 'error');
 
-                    // পাসওয়ার্ড ফিল্ড ক্লিয়ার করুন (সিকিউরিটি)
                     passwordInput.value = '';
                     passwordInput.focus();
 
-                    // Remember Me চেক থাকলে সরিয়ে ফেলা ভালো
                     if (rememberCheck.checked) {
                         rememberCheck.checked = false;
                         try {
@@ -393,7 +394,7 @@
             // ── পৃষ্ঠা লোড হলে Remember Me পড়া ──
             loadRemembered();
 
-            // ── চেকবক্সে ক্লিক করলেও localStorage আপডেট (অপশনাল) ──
+            // ── চেকবক্সে ক্লিক করলে localStorage আপডেট ──
             rememberCheck.addEventListener('change', function() {
                 if (!this.checked) {
                     try {
@@ -402,7 +403,6 @@
                         localStorage.removeItem('login_pass');
                     } catch (_) { /* ignore */ }
                 } else {
-                    // চেক করলে এখনই সেভ করে ফেলি (কারেন্ট ভ্যালু)
                     const user = usernameInput.value.trim();
                     const pass = passwordInput.value.trim();
                     if (user && pass) {
@@ -432,10 +432,8 @@
             usernameInput.addEventListener('input', syncRemember);
             passwordInput.addEventListener('input', syncRemember);
 
-            // ── কীবোর্ড শর্টকাট: Enter চাপলে সাবমিট (ডিফল্ট) ──
-
-            // ── ডেভেলপার কনসোলে হেল্পার (ঐচ্ছিক) ──
             console.log('🔐 টেস্ট ক্রেডেনশিয়াল: ইউজার 1122, পাস 1122');
+            console.log('🔗 সফল লগইনে রিডাইরেক্ট হবে:', REDIRECT_URL);
 
         })();
     </script>
